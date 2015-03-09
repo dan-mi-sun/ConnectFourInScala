@@ -9,8 +9,12 @@ class BoardSpec extends FunSpec with Matchers {
 //      val game = new Game(p1, p2)
 //      game.setGUI(new GUI(game, Board.NUM_COLS, Board.NUM_ROWS))
 //      game.runGame()
-
-
+    
+    it("should alternate between colour markers") (pending)
+    
+    it("should not allow illegal placement beyond boundaries") (pending)
+    
+    it("should declare winner when a winning move has been made") (pending)
 
   }
 }
