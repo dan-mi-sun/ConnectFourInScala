@@ -1,3 +1,5 @@
+import scala.collection.mutable.ListBuffer
+
 object Board {
   val NUM_ROWS = 6
   val NUM_COLS = 7
@@ -79,14 +81,14 @@ class Board {
   }
 
   def winLocations(): List[Array[Player]] = {
-    val locations = List[Array[Player]]()
+    val locations = ListBuffer[Array[Player]]()
     for (delta <- deltas; r <- 0 until Board.NUM_ROWS; c <- 0 until Board.NUM_COLS) {
       val loc = possibleWin(r, c, delta)
       if (loc != null) {
-        locations :+ loc
+        locations += loc
       }
     }
-    locations
+    locations.toList
   }
 
   def possibleWin(r: Int, c: Int, delta: Array[Int]): Array[Player] = {
