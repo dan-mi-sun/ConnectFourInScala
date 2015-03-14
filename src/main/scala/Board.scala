@@ -1,4 +1,4 @@
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object Board {
   val NUM_ROWS = 6
@@ -55,11 +55,33 @@ class Board {
 
   }
 
+ /**
+   * Return an array of all moves that can possibly be made by Player p on this
+   * board. The moves must be in order of increasing column number.
+   * Note: The length of the array must be the number of possible moves.
+   * Note: If the board has a winner (four things of the same colour in a row), no
+   * move is possible because the game is over.
+   * Note: If the game is not over, the number of possible moves is the number
+   * of columns that are not full. Thus, if all columns are full, return an
+   * array of length 0.
+   */
+
+//  def getPossibleMoves(p: Player): Array[Move] = {
+//    val possibleMoves = ArrayBuffer[Move]()
+//    if (hasConnectFour() == null)
+//      for ( i <- 0 until Board.NUM_COLS if board(0)(i) == null )
+//        possibleMoves.:+(new Move(p, i  ))
+//    possibleMoves.toArray
+//
+//
+//  }
+
 
   def getPossibleMoves(p: Player): Array[Move] = {
-    (for{c <- 0 until Board.NUM_COLS; r = 0 if board(r)(c) == null}
-    yield new Move(p,c)).toArray
-  }
+   (for {c <- 0 until Board.NUM_COLS; r = 0 if board(r)(c) == null}
+   yield new Move(p, c)).toArray
+ }
+
 
   override def toString(): String = toString("")
 
