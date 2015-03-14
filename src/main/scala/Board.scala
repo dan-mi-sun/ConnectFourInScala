@@ -62,7 +62,11 @@ class Board {
    * array of length 0.
    */
 
-  def getPossibleMoves(p: Player): Array[Move] = null
+  def getPossibleMoves(p: Player): Array[Move] = {
+    var possibleMoves = Array[Move]()
+    ???
+    
+  }
 
   override def toString(): String = toString("")
 
