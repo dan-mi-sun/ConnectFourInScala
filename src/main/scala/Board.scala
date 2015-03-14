@@ -1,4 +1,4 @@
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 object Board {
   val NUM_ROWS = 6
@@ -63,7 +63,7 @@ class Board {
    */
 
   def getPossibleMoves(p: Player): Array[Move] = {
-    var possibleMoves = Array[Move]()
+    val possibleMoves = ArrayBuffer[Move]()
     ???
     
   }
