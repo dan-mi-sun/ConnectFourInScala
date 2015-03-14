@@ -51,6 +51,17 @@ class Board {
 
   }
 
+  /**
+   * Return an array of all moves that can possibly be made by Player p on this
+   * board. The moves must be in order of increasing column number.
+   * Note: The length of the array must be the number of possible moves.
+   * Note: If the board has a winner (four things of the same colour in a row), no
+   * move is possible because the game is over.
+   * Note: If the game is not over, the number of possible moves is the number
+   * of columns that are not full. Thus, if all columns are full, return an
+   * array of length 0.
+   */
+
   def getPossibleMoves(p: Player): Array[Move] = null
 
   override def toString(): String = toString("")
