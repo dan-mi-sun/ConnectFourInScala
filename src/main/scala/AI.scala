@@ -8,15 +8,22 @@ import scala.collection.JavaConversions._
 
 object AI {
 
+  val treeMap = TreeMap()
 
   def createGameTree(s: State, d: Int): Unit = {
     //very much an incomplete partial solution
+
+    //i think we need a data structure to which we add s:state, then we initialise children
+    //and add them to the same structure as nodes
+
     s.initializeChildren()
 
-    s.getChildren.foreach(x => println(x.getLastMove))
+    //s.getChildren.foreach(x => println(x.getLastMove))
 
     if(d>0)
-      s.getChildren.foreach(_ => createGameTree(s,d-1))
+      s.getChildren.foreach(x => {
+        if(x.getBoard.hasConnectFour() ==null) createGameTree(x,d-1)
+      })
   }
 
   def minimax(ai: AI, s: State) {
@@ -26,14 +33,23 @@ object AI {
 
 class AI(private var player: Player, private var depth: Int) extends Solver {
 
+
+
   override def getMoves(b: Board): Array[Move] = {
     //testing
 //    val s = new State(player, b, new Move(player,0))
 //    createGameTree(s,1)
-//    return null
+    //val s = new State(player,b),b.getPossibleMoves())
+
+    val possibleMoves = b.getPossibleMoves(player)
+
+
+
+    return null
   }
 
-  def minimax(s: State) {
+  def minimax(s: State): Unit = {
+    evaluateBoard(s.getBoard)
   }
 
   def evaluateBoard(b: Board): Int = {
