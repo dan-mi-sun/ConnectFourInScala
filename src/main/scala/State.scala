@@ -19,7 +19,7 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
   var value: Int = 0
 
   def initializeChildren(): Unit = {
-    children = (for {m <- board.getPossibleMoves(player)} yield new State(player, board, m))
+    children = (for {m <- board.getPossibleMoves(player)} yield new State(player.opponent, board, m))
   }
 
   def writeToFile() {

@@ -1,12 +1,22 @@
 import java.util.List
 import AI._
+
+import scala.collection.immutable.TreeMap
+
 //remove if not needed
 import scala.collection.JavaConversions._
 
 object AI {
 
-  def createGameTree(s: State, d: Int): Unit = {
 
+  def createGameTree(s: State, d: Int): Unit = {
+    //very much an incomplete partial solution
+    s.initializeChildren()
+
+    s.getChildren.foreach(x => println(x.getLastMove))
+
+    if(d>0)
+      s.getChildren.foreach(_ => createGameTree(s,d-1))
   }
 
   def minimax(ai: AI, s: State) {
@@ -16,7 +26,12 @@ object AI {
 
 class AI(private var player: Player, private var depth: Int) extends Solver {
 
-  override def getMoves(b: Board): Array[Move] = ???
+  override def getMoves(b: Board): Array[Move] = {
+    //testing
+//    val s = new State(player, b, new Move(player,0))
+//    createGameTree(s,1)
+//    return null
+  }
 
   def minimax(s: State) {
   }
