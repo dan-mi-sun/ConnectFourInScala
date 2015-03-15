@@ -65,17 +65,18 @@ class Board {
    * of columns that are not full. Thus, if all columns are full, return an
    * array of length 0.
    */
-
+//  First draft
+// 
 //  def getPossibleMoves(p: Player): Array[Move] = {
 //    val possibleMoves = ArrayBuffer[Move]()
 //    if (hasConnectFour() == null)
 //      for ( i <- 0 until Board.NUM_COLS if board(0)(i) == null )
 //        possibleMoves.:+(new Move(p, i  ))
 //    possibleMoves.toArray
-//
-//
 //  }
 
+ 
+ // A more functional approach:
 
   def getPossibleMoves(p: Player): Array[Move] = {
    (for {c <- 0 until Board.NUM_COLS; r = 0 if board(r)(c) == null}
