@@ -5,7 +5,8 @@ import scala.collection.JavaConversions._
 
 object AI {
 
-  def createGameTree(s: State, d: Int) {
+  def createGameTree(s: State, d: Int): Unit = {
+
   }
 
   def minimax(ai: AI, s: State) {

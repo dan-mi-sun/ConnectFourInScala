@@ -18,7 +18,8 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
   @BeanProperty
   var value: Int = 0
 
-  def initializeChildren() {
+  def initializeChildren(): Unit = {
+    children = (for {m <- board.getPossibleMoves(player)} yield new State(player, board, m))
   }
 
   def writeToFile() {
@@ -50,6 +51,7 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
     str
   }
 
-  override def compareTo(ob: AnyRef): Int = 0
+  override def compareTo(ob: Any): Int = 0
+  //override def compareTo(o: Any): Int = ???
 }
 
