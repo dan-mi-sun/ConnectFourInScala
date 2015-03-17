@@ -46,10 +46,6 @@ class Board {
       r = r - 1
 
     }
-    val x = getPossibleMoves(move.player)
-
-    for(m <- x)
-        println("move columns = " + m.column)
 
     board(r)(c) = move.player
 

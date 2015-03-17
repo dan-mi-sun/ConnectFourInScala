@@ -1,4 +1,4 @@
-import java.util.List
+import java.util.{Random, List}
 import AI._
 
 import scala.collection.immutable.TreeMap
@@ -8,21 +8,18 @@ import scala.collection.JavaConversions._
 
 object AI {
 
-  val treeMap = TreeMap()
-
   def createGameTree(s: State, d: Int): Unit = {
-    //very much an incomplete partial solution
-
-    //i think we need a data structure to which we add s:state, then we initialise children
-    //and add them to the same structure as nodes
+   //no need to preserve state as initially commented
+   //actually a tree is created by keeping a reference to the root state and
+    //recursively creating the children
 
     s.initializeChildren()
 
-    //s.getChildren.foreach(x => println(x.getLastMove))
-
-    if(d>0)
+    if(d>1)
       s.getChildren.foreach(x => {
-        if(x.getBoard.hasConnectFour() ==null) createGameTree(x,d-1)
+        if(x.getBoard.hasConnectFour() ==null) {
+          createGameTree(x, d - 1)
+        }
       })
   }
 
@@ -36,20 +33,40 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
 
 
   override def getMoves(b: Board): Array[Move] = {
-    //testing
-//    val s = new State(player, b, new Move(player,0))
-//    createGameTree(s,1)
-    //val s = new State(player,b),b.getPossibleMoves())
 
-    val possibleMoves = b.getPossibleMoves(player)
+    val rootstate = new State(player, b, null)
+    createGameTree(rootstate,depth)
+    minimax(rootstate)
+    rootstate.writeToFile()
 
+    //TODO: traveral of tree (val - rootstate) in order to determine best its best
+    //child - need to start from leaves and work up to nodes
 
+    /* as the final step - (traversing the tree from leaves up to nodes to determine
+     best step) has not yet been implemented, in order to test the
+    creation of tree and assignment of values to each state,
+    uncomment out below lines - it will allow human to play again AI opponent
+    by having the AI opponent pick a random column from its possible moves */
 
-    return null
+    val rand = new Random()
+    val moves = for(c <- rootstate.getChildren) yield c.getLastMove
+    var randomColumn = rand.nextInt(moves.length)
+    val m = moves(randomColumn)
+    Array(m)
+
   }
 
+
   def minimax(s: State): Unit = {
-    evaluateBoard(s.getBoard)
+
+    if(s.getChildren.length == 0) {
+      s.setValue(evaluateBoard(s.getBoard))
+    }else{
+      for(child <- s.getChildren) {
+        minimax(child)
+      }
+    }
+
   }
 
   def evaluateBoard(b: Board): Int = {

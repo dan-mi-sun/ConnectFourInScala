@@ -15,8 +15,8 @@ object GameGUI extends App {
 //  val p2 = new Dummy(YELLOW);
 
     val p1 = new AI(RED,4);
-    val p2 = new Dummy(YELLOW);
-
+//    val p2 = new Dummy(YELLOW);
+    val p2 = new Human(YELLOW);
 
 
   //Solver p1 = new Human(Player.RED);
