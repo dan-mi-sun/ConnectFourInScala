@@ -26,25 +26,12 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
   def initializeChildren(): Unit = {
 
     val childrenBuffer = ArrayBuffer[State]()
+/*
+* We need to get the possible moves and instantiate these children.
+* *
+ */
+    board.getPossibleMoves(player).foreach(???)
 
-    //if we are rootstate, it's current player's turn
-    //not exactly sure why, but without this, each both player's
-    //returned yellow
-    val p = if (lastMove == null) player else player.opponent
-
-    for (m <- board.getPossibleMoves(p)) {
-
-      //update of this method has new Board instance
-      //generated each time with the move applied
-      //this is needed to be able to evaluate the Board
-      //i cannot see how its possible to use the "yield"
-      //ability whilst performing addition methods (makeMove(s))
-
-      val s = new State(p, new Board(board), m)
-      s.getBoard.makeMove(m)
-      childrenBuffer.+=:(s)
-    }
-    children = childrenBuffer.toArray
   }
 
   def writeToFile() {
