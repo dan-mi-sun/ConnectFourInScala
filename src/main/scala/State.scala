@@ -28,9 +28,12 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
     val childrenBuffer = ArrayBuffer[State]()
 /*
 * We need to get the possible moves and instantiate these children.
-* *
- */
-    board.getPossibleMoves(player).foreach(???)
+*
+*/
+    board.getPossibleMoves(player).foreach(move => {
+      ??? //we need to set the children here
+      
+    })
 
   }
 
