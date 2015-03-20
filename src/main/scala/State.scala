@@ -27,6 +27,11 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
 
   }
 
+  /*
+  *Method to stdout print to output.txt so that you can visually see the results ie we can see the State and
+  *children
+   */
+
   def writeToFile() {
     try {
       var writer = new PrintWriter("output.txt", "UTF-8")
@@ -44,6 +49,10 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
   }
 
   override def compareTo(ob: Any): Int = 0
+
+  /*
+  * This method prints out an ASCII representation of the board and all its children to the predetermined depth (d)
+   */
 
   private def toStringHelper(d: Int, ind: String): String = {
     var str = ind + player + " to play\n"
