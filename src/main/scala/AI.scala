@@ -76,18 +76,29 @@ object AI {
     //actually a tree is created by keeping a reference to the root state and
     //recursively creating the children
 
-    s.initializeChildren()
 
-    if (d > 1)
-      s.getChildren.foreach(x => {
-        if (x.getBoard.hasConnectFour() == null) {
-          createGameTree(x, d - 1)
-        }
-      })
+    if (d > 0) {
+      s.initializeChildren()
+      s.children.foreach { x => createGameTree(???)}
+      //we should come up with a better name than x
+    }
   }
-
+  
   def minimax(ai: AI, s: State) {
     ai.minimax(s)
   }
+
+
+  //    s.initializeChildren()
+  //
+  //    if (d > 1)
+  //      s.getChildren.foreach(x => {
+  //        if (x.getBoard.hasConnectFour() == null) {
+  //          createGameTree(x, d - 1)
+  //        }
+  //      })
+  //  }
+  //
+
 }
 
