@@ -79,7 +79,7 @@ object AI {
 
     if (d > 0) {
       s.initializeChildren()
-      s.children.foreach { x => createGameTree(???)}
+      s.children.foreach { x => createGameTree(x, d - 1)}
       //we should come up with a better name than x
     }
   }
