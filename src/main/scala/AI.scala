@@ -14,6 +14,8 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     minimax(rootstate)
     rootstate.writeToFile()
 
+
+
     //TODO: traveral of tree (val - rootstate) in order to determine best its best
     //child - need to start from leaves and work up to nodes
 
@@ -22,6 +24,15 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     creation of tree and assignment of values to each state,
     uncomment out below lines - it will allow human to play again AI opponent
     by having the AI opponent pick a random column from its possible moves */
+
+    /*    val moves = ArrayBuffer[Move]()
+   val rootstate = new State(player, b, null)
+    minmax(rootstate)
+      rootstate.getChildren
+          .filter(_.getValue == rootstate.getValue)
+         .foreach(child => moves.append(child.lastMove))
+         moves.toArray
+*/
 
     val rand = new Random()
     val moves = for (c <- rootstate.getChildren) yield c.getLastMove
@@ -38,8 +49,11 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
       s.setValue(evaluateBoard(s.getBoard))
     } else {
       for (child <- s.getChildren) {
+        //need some logic in here for min and max values
+        //we also need to return the value of the state...
         minimax(child)
       }
+      //
     }
 
   }
