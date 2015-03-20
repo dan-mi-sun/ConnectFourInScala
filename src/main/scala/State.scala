@@ -31,6 +31,7 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
     try {
       var writer = new PrintWriter("output.txt", "UTF-8")
       writer.println(this)
+      writer.close()
       java.awt.Toolkit.getDefaultToolkit.beep()
     } catch {
       case e@(_: FileNotFoundException | _: UnsupportedEncodingException) => e.printStackTrace()
