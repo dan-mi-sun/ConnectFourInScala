@@ -5,6 +5,15 @@ import State._
 import scala.beans.BeanProperty
 import scala.collection.mutable.ArrayBuffer
 
+/**
+* An instance represents the current _state_ of the game of Connect4
+*/
+
+object State {
+
+  val length0 = Array[State]()
+}
+
 class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @BeanProperty var lastMove: Move)
   extends Comparable[Any] {
 
@@ -24,6 +33,7 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
     val p = if (lastMove == null) player else player.opponent
 
     for (m <- board.getPossibleMoves(p)) {
+
       //update of this method has new Board instance
       //generated each time with the move applied
       //this is needed to be able to evaluate the Board
@@ -71,8 +81,5 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
 
 }
 
-object State {
 
-  val length0 = Array[State]()
-}
 
