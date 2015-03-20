@@ -31,7 +31,7 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
 *
 */
     board.getPossibleMoves(player).foreach(move => {
-      ??? //we need to set the children here
+      children = children.:+(??? // Here we need to assign the new States)
       
     })
 
