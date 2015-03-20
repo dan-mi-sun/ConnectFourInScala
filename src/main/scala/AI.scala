@@ -1,41 +1,16 @@
-import java.util.{Random, List}
+import java.util.Random
+
 import AI._
 
-import scala.collection.immutable.TreeMap
-
 //remove if not needed
-import scala.collection.JavaConversions._
-
-object AI {
-
-  def createGameTree(s: State, d: Int): Unit = {
-   //no need to preserve state as initially commented
-   //actually a tree is created by keeping a reference to the root state and
-    //recursively creating the children
-
-    s.initializeChildren()
-
-    if(d>1)
-      s.getChildren.foreach(x => {
-        if(x.getBoard.hasConnectFour() ==null) {
-          createGameTree(x, d - 1)
-        }
-      })
-  }
-
-  def minimax(ai: AI, s: State) {
-    ai.minimax(s)
-  }
-}
 
 class AI(private var player: Player, private var depth: Int) extends Solver {
-
 
 
   override def getMoves(b: Board): Array[Move] = {
 
     val rootstate = new State(player, b, null)
-    createGameTree(rootstate,depth)
+    createGameTree(rootstate, depth)
     minimax(rootstate)
     rootstate.writeToFile()
 
@@ -49,7 +24,7 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     by having the AI opponent pick a random column from its possible moves */
 
     val rand = new Random()
-    val moves = for(c <- rootstate.getChildren) yield c.getLastMove
+    val moves = for (c <- rootstate.getChildren) yield c.getLastMove
     var randomColumn = rand.nextInt(moves.length)
     val m = moves(randomColumn)
     Array(m)
@@ -59,10 +34,10 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
 
   def minimax(s: State): Unit = {
 
-    if(s.getChildren.length == 0) {
+    if (s.getChildren.length == 0) {
       s.setValue(evaluateBoard(s.getBoard))
-    }else{
-      for(child <- s.getChildren) {
+    } else {
+      for (child <- s.getChildren) {
         minimax(child)
       }
     }
@@ -91,6 +66,28 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
       value = (if (winner == player) 1 else -1) * 10000 * numEmpty
     }
     value
+  }
+}
+
+object AI {
+
+  def createGameTree(s: State, d: Int): Unit = {
+    //no need to preserve state as initially commented
+    //actually a tree is created by keeping a reference to the root state and
+    //recursively creating the children
+
+    s.initializeChildren()
+
+    if (d > 1)
+      s.getChildren.foreach(x => {
+        if (x.getBoard.hasConnectFour() == null) {
+          createGameTree(x, d - 1)
+        }
+      })
+  }
+
+  def minimax(ai: AI, s: State) {
+    ai.minimax(s)
   }
 }
 
