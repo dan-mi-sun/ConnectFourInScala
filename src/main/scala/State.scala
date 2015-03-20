@@ -5,15 +5,6 @@ import State._
 import scala.beans.BeanProperty
 import scala.collection.mutable.ArrayBuffer
 
-/**
-* An instance represents the current _state_ of the game of Connect4
-*/
-
-object State {
-
-  val length0 = Array[State]()
-}
-
 class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @BeanProperty var lastMove: Move)
   extends Comparable[Any] {
 
@@ -26,13 +17,12 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
   def initializeChildren(): Unit = {
 
     val childrenBuffer = ArrayBuffer[State]()
-/*
-* We need to get the possible moves and instantiate these children.
-*
-*/
+    /*
+    * We need to get the possible moves and instantiate these children.
+    *
+    */
     board.getPossibleMoves(player).foreach(move => {
-      children = children.:+(??? // Here we need to assign the new States)
-      
+      children = children.:+(new State(player.opponent, new Board(board, move), move))
     })
 
   }
@@ -69,6 +59,15 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
     str
   }
 
+}
+
+/**
+ * An instance represents the current _state_ of the game of Connect4
+ */
+
+object State {
+
+  val length0 = Array[State]()
 }
 
 
