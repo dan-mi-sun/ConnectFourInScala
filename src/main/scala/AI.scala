@@ -88,7 +88,6 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
   private def min(array: Array[State]): Int = {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
-    //need to think of better variable name than y
     array.foreach { state => x = x.:+(state.value) }
     x.min
   }
@@ -97,7 +96,6 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
   private def max(array: Array[State]): Int = {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
-    //need to think of better variable name than y
     array.foreach { state => x = x.:+(state.value) }
     x.max
   }
