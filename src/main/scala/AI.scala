@@ -32,6 +32,8 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
           .filter(_.getValue == rootstate.getValue)
           .foreach(child => moves.append(child.lastMove))
           moves.toArray
+          
+          We need some notion of selecting the best move
 */
 
     val rand = new Random()
@@ -53,12 +55,10 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
         //we also need to return the value of the state...
         minimax(child)
       }
-      //
+      // here we can create a logic to decide which max or min to pass up the heirerarcy to the parent
     }
 
   }
-  
-  
 
   def evaluateBoard(b: Board): Int = {
     val winner = b.hasConnectFour()
@@ -82,6 +82,18 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
       value = (if (winner == player) 1 else -1) * 10000 * numEmpty
     }
     value
+  }
+
+  private def min(arr: Array[State]): Int = {
+    ???
+    ///helper method to to calculate the minimum value of the the children values for minmax
+
+  }
+
+  private def max(arr: Array[State]): Int = {
+    ???
+    ///helper method to to calculate the maximum value of the the children values for minmax
+
   }
 }
 
@@ -112,6 +124,7 @@ object AI {
   def minimax(ai: AI, s: State) {
     ai.minimax(s)
   }
+
 
 }
 
