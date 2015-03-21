@@ -87,18 +87,18 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
   private def min(array: Array[State]): Int = {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
-    array.foreach {???}
-    ???
-
+    //need to think of better variable name than y
+    array.foreach { state => y = y.:+(state.value) }
+    y.min
   }
   
   ///helper method to to calculate the maximum value of the the children values for minmax
   private def max(array: Array[State]): Int = {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
-    array.foreach {???}
-    ???
-
+    //need to think of better variable name than y
+    array.foreach { state => y = y.:+(state.value) }
+    y.max
   }
 }
 
