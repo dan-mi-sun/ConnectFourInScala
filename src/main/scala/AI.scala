@@ -23,22 +23,23 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     minimax(rootstate)
     rootstate.writeToFile()
            val rand = new Random()
-//    val moves = for (c <- rootstate.getChildren) yield c.getLastMove
-//    var randomColumn = rand.nextInt(moves.length)
-//    val m = moves(randomColumn)
-//    Array(m)
-          We need some notion of selecting the best move
-*/
-    //
-    //
-    val moves = ArrayBuffer[Move]()
-    val rootstate = new State(player, b, null)
-    minmax(rootstate)
-    rootstate.getChildren
-      .filter(_.getValue == rootstate.getValue)
-      .foreach(child => moves.append(child.lastMove))
-    moves.toArray
+    val moves = for (c <- rootstate.getChildren) yield c.getLastMove
+    var randomColumn = rand.nextInt(moves.length)
+    val m = moves(randomColumn)
+    Array(m) */
+//          We need some notion of selecting the best move
 
+    //
+    //
+    //val moves = ArrayBuffer[Move]()
+    //val rootstate = new State(player, b, null)
+    //minimax(rootstate)
+//    rootstate.getChildren
+//      .filter(_.getValue == rootstate.getValue)
+//      .foreach(child => moves.append(child.lastMove))
+//    moves.toArray
+
+    return null
   }
 
 
@@ -105,7 +106,18 @@ object AI {
     //no need to preserve state as initially commented
     //actually a tree is created by keeping a reference to the root state and
     //recursively creating the children
-    
+    //    s.initializeChildren()
+    //
+    //    if (d > 1)
+    //      s.getChildren.foreach(x => {
+    //        if (x.getBoard.hasConnectFour() == null) {
+    //          createGameTree(x, d - 1)
+    //        }
+    //      })
+    //  }
+    //A more functional approach
+
+
     if (d > 0) {
       s.initializeChildren()
       s.children.foreach { child => createGameTree(child, d - 1)}
