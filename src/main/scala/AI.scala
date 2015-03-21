@@ -26,12 +26,12 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     by having the AI opponent pick a random column from its possible moves */
 
     /*    val moves = ArrayBuffer[Move]()
-   val rootstate = new State(player, b, null)
-    minmax(rootstate)
-      rootstate.getChildren
+          val rootstate = new State(player, b, null)
+          minmax(rootstate)
+          rootstate.getChildren
           .filter(_.getValue == rootstate.getValue)
-         .foreach(child => moves.append(child.lastMove))
-         moves.toArray
+          .foreach(child => moves.append(child.lastMove))
+          moves.toArray
 */
 
     val rand = new Random()
@@ -57,6 +57,8 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     }
 
   }
+  
+  
 
   def evaluateBoard(b: Board): Int = {
     val winner = b.hasConnectFour()
@@ -103,8 +105,7 @@ object AI {
 
     if (d > 0) {
       s.initializeChildren()
-      s.children.foreach { x => createGameTree(x, d - 1)}
-      //we should come up with a better name than x
+      s.children.foreach { child => createGameTree(child, d - 1)}
     }
   }
 
