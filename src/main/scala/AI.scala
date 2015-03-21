@@ -58,6 +58,7 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
       // here we can create a logic to decide which max or min to pass up the heirerarcy to the parent
     }
 
+
   }
 
   def evaluateBoard(b: Board): Int = {
@@ -88,8 +89,8 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
     //need to think of better variable name than y
-    array.foreach { state => y = y.:+(state.value) }
-    y.min
+    array.foreach { state => x = x.:+(state.value) }
+    x.min
   }
   
   ///helper method to to calculate the maximum value of the the children values for minmax
@@ -97,8 +98,8 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
     //need to think of better variable name than y
-    array.foreach { state => y = y.:+(state.value) }
-    y.max
+    array.foreach { state => x = x.:+(state.value) }
+    x.max
   }
 }
 
