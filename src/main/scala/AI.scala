@@ -1,6 +1,4 @@
-import java.util.Random
-
-import AI._
+import scala.collection.mutable.ArrayBuffer
 
 //remove if not needed
 
@@ -8,12 +6,6 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
 
 
   override def getMoves(b: Board): Array[Move] = {
-
-    val rootstate = new State(player, b, null)
-    createGameTree(rootstate, depth)
-    minimax(rootstate)
-    rootstate.writeToFile()
-
 
 
     //TODO: traveral of tree (val - rootstate) in order to determine best its best
@@ -25,22 +17,27 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     uncomment out below lines - it will allow human to play again AI opponent
     by having the AI opponent pick a random column from its possible moves */
 
-    /*    val moves = ArrayBuffer[Move]()
-          val rootstate = new State(player, b, null)
-          minmax(rootstate)
-          rootstate.getChildren
-          .filter(_.getValue == rootstate.getValue)
-          .foreach(child => moves.append(child.lastMove))
-          moves.toArray
-          
+    /*
+ val rootstate = new State(player, b, null)
+    createGameTree(rootstate, depth)
+    minimax(rootstate)
+    rootstate.writeToFile()
+           val rand = new Random()
+//    val moves = for (c <- rootstate.getChildren) yield c.getLastMove
+//    var randomColumn = rand.nextInt(moves.length)
+//    val m = moves(randomColumn)
+//    Array(m)
           We need some notion of selecting the best move
 */
-
-    val rand = new Random()
-    val moves = for (c <- rootstate.getChildren) yield c.getLastMove
-    var randomColumn = rand.nextInt(moves.length)
-    val m = moves(randomColumn)
-    Array(m)
+    //
+    //
+    val moves = ArrayBuffer[Move]()
+    val rootstate = new State(player, b, null)
+    minmax(rootstate)
+    rootstate.getChildren
+      .filter(_.getValue == rootstate.getValue)
+      .foreach(child => moves.append(child.lastMove))
+    moves.toArray
 
   }
 
@@ -84,19 +81,20 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     }
     value
   }
+
   ///helper method to to calculate the minimum value of the the children values for minmax
   private def min(array: Array[State]): Int = {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
-    array.foreach { state => x = x.:+(state.value) }
+    array.foreach { state => x = x.:+(state.value)}
     x.min
   }
-  
+
   ///helper method to to calculate the maximum value of the the children values for minmax
   private def max(array: Array[State]): Int = {
     //need to think of better variable name than x
     var x: Array[Int] = Array[Int]()
-    array.foreach { state => x = x.:+(state.value) }
+    array.foreach { state => x = x.:+(state.value)}
     x.max
   }
 }
