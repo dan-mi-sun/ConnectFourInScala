@@ -1,4 +1,5 @@
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 //remove if not needed
 
@@ -7,55 +8,22 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
 
   override def getMoves(b: Board): Array[Move] = {
 
+    val originalRootState = new State(player, b, null)
+    AI.createGameTree(originalRootState,depth)
+    minimax(originalRootState)
+    originalRootState.writeToFile()
+    val chosenState = getBestState(originalRootState, player)
+    Array(chosenState.getLastMove)
 
-    //TODO: traveral of tree (val - rootstate) in order to determine best its best
-    //child - need to start from leaves and work up to nodes
-
-    /* as the final step - (traversing the tree from leaves up to nodes to determine
-     best step) has not yet been implemented, in order to test the
-    creation of tree and assignment of values to each state,
-    uncomment out below lines - it will allow human to play again AI opponent
-    by having the AI opponent pick a random column from its possible moves */
-
-    /*
- val rootstate = new State(player, b, null)
-    createGameTree(rootstate, depth)
-    minimax(rootstate)
-    rootstate.writeToFile()
-           val rand = new Random()
-    val moves = for (c <- rootstate.getChildren) yield c.getLastMove
-    var randomColumn = rand.nextInt(moves.length)
-    val m = moves(randomColumn)
-    Array(m) */
-//          We need some notion of selecting the best move
-
-    //
-    //
-    //val moves = ArrayBuffer[Move]()
-    //val rootstate = new State(player, b, null)
-    //minimax(rootstate)
-//    rootstate.getChildren
-//      .filter(_.getValue == rootstate.getValue)
-//      .foreach(child => moves.append(child.lastMove))
-//    moves.toArray
-
-    return null
   }
 
 
   def minimax(s: State): Unit = {
 
-    if (s.getChildren.length == 0) {
-      s.setValue(evaluateBoard(s.getBoard))
-    } else {
-      for (child <- s.getChildren) {
-        //need some logic in here for min and max values
-        //we also need to return the value of the state...
-        minimax(child)
-      }
-      // here we can create a logic to decide which max or min to pass up the heirerarcy to the parent
-    }
+    s.setValue(evaluateBoard(s.getBoard))
 
+    if(s.getChildren.length > 0)
+      s.getChildren.foreach(child => minimax(child))
 
   }
 
@@ -83,41 +51,59 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     value
   }
 
-  ///helper method to to calculate the minimum value of the the children values for minmax
-  private def min(array: Array[State]): Int = {
-    //need to think of better variable name than x
-    var x: Array[Int] = Array[Int]()
-    array.foreach { state => x = x.:+(state.value)}
-    x.min
+  private def getBestState(rootstate: State, stateplayer: Player):State = {
+    if (rootstate.getChildren.length == 0)  return rootstate
+    var chosenState = rootstate
+    if (stateplayer == player) {
+
+
+      var statesToCompare: Array[State] = Array[State]()
+      for (child <- rootstate.getChildren) {
+        val score = getBestState(child, child.getPlayer).getValue
+        child.setValue(score)
+        statesToCompare = statesToCompare.:+(child)
+        chosenState = getMinMaxStateForNode(statesToCompare, "max")
+      }
+    } else {
+      var chosenState = rootstate
+      var statesToCompare: Array[State] = Array[State]()
+      for (child <- rootstate.getChildren) {
+        val score = getBestState(child, child.getPlayer).getValue
+        child.setValue(score)
+        statesToCompare = statesToCompare.:+(child)
+        chosenState = getMinMaxStateForNode(statesToCompare, "min")
+      }
+    }
+    chosenState
+
   }
 
-  ///helper method to to calculate the maximum value of the the children values for minmax
-  private def max(array: Array[State]): Int = {
-    //need to think of better variable name than x
-    var x: Array[Int] = Array[Int]()
-    array.foreach { state => x = x.:+(state.value)}
-    x.max
+
+
+  def getMinMaxStateForNode(states: Array[State], operation: String):State = {
+
+    var bestState = states(0)
+
+    if (operation == "max"){
+
+      for(i <- 1 until states.length){
+        if(states(i).getValue > bestState.getValue) bestState = states(i)
+      }
+    }else if(operation == "min"){
+      for(i <- 1 until states.length){
+        if(states(i).getValue < bestState.getValue) bestState = states(i)
+      }
+    }
+    return bestState
   }
+
+
+
 }
 
 object AI {
 
   def createGameTree(s: State, d: Int): Unit = {
-    //no need to preserve state as initially commented
-    //actually a tree is created by keeping a reference to the root state and
-    //recursively creating the children
-    //    s.initializeChildren()
-    //
-    //    if (d > 1)
-    //      s.getChildren.foreach(x => {
-    //        if (x.getBoard.hasConnectFour() == null) {
-    //          createGameTree(x, d - 1)
-    //        }
-    //      })
-    //  }
-    //A more functional approach
-
-
     if (d > 0) {
       s.initializeChildren()
       s.children.foreach { child => createGameTree(child, d - 1)}
