@@ -5,26 +5,20 @@ import scala.util.Random
 
 class AI(private var player: Player, private var depth: Int) extends Solver {
 
-
   override def getMoves(b: Board): Array[Move] = {
-
     val originalRootState = new State(player, b, null)
     AI.createGameTree(originalRootState,depth)
     minimax(originalRootState)
     originalRootState.writeToFile()
-    val chosenState = getBestState(originalRootState, player)
-    Array(chosenState.getLastMove)
-
+    Array(getBestState(originalRootState, player).getLastMove)
   }
 
 
   def minimax(s: State): Unit = {
-
     s.setValue(evaluateBoard(s.getBoard))
 
     if(s.getChildren.length > 0)
       s.getChildren.foreach(child => minimax(child))
-
   }
 
   def evaluateBoard(b: Board): Int = {
@@ -51,25 +45,25 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     value
   }
 
-  private def getBestState(rootstate: State, stateplayer: Player):State = {
-    if (rootstate.getChildren.length == 0)  return rootstate
-    var chosenState = rootstate
+  //used rubbish name "stateplayer" to avoid confusion with AI.player - to rename
+  //refactoring is required here - this is too iterative
+  //consider refactoring of helper method
+  //consider other scala functions
+  private def getBestState(node: State, stateplayer: Player):State = {
+    if (node.getChildren.length == 0)  return node
+    var chosenState = node
     if (stateplayer == player) {
-
-
       var statesToCompare: Array[State] = Array[State]()
-      for (child <- rootstate.getChildren) {
-        val score = getBestState(child, child.getPlayer).getValue
-        child.setValue(score)
+      for (child <- node.getChildren) {
+        child.setValue(getBestState(child, child.getPlayer).getValue)
         statesToCompare = statesToCompare.:+(child)
         chosenState = getMinMaxStateForNode(statesToCompare, "max")
       }
     } else {
-      var chosenState = rootstate
+      var chosenState = node
       var statesToCompare: Array[State] = Array[State]()
-      for (child <- rootstate.getChildren) {
-        val score = getBestState(child, child.getPlayer).getValue
-        child.setValue(score)
+      for (child <- node.getChildren) {
+        child.setValue(getBestState(child, child.getPlayer).getValue)
         statesToCompare = statesToCompare.:+(child)
         chosenState = getMinMaxStateForNode(statesToCompare, "min")
       }
@@ -79,13 +73,11 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
   }
 
 
-
+//very poor design - refactoring could use function requiring a functional parameter
   def getMinMaxStateForNode(states: Array[State], operation: String):State = {
-
     var bestState = states(0)
 
     if (operation == "max"){
-
       for(i <- 1 until states.length){
         if(states(i).getValue > bestState.getValue) bestState = states(i)
       }
@@ -96,7 +88,6 @@ class AI(private var player: Player, private var depth: Int) extends Solver {
     }
     return bestState
   }
-
 
 
 }
@@ -113,7 +104,6 @@ object AI {
   def minimax(ai: AI, s: State) {
     ai.minimax(s)
   }
-
 
 }
 
