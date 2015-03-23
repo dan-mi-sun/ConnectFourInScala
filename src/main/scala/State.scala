@@ -5,15 +5,6 @@ import State._
 import scala.beans.BeanProperty
 import scala.collection.mutable.ArrayBuffer
 
-/**
-* An instance represents the current _state_ of the game of Connect4
-*/
-
-object State {
-
-  val length0 = Array[State]()
-}
-
 class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @BeanProperty var lastMove: Move)
   extends Comparable[Any] {
 
@@ -26,31 +17,26 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
   def initializeChildren(): Unit = {
 
     val childrenBuffer = ArrayBuffer[State]()
+    /*
+    * We need to get the possible moves and instantiate these children.
+    *
+    */
+    board.getPossibleMoves(player).foreach(move => {
+      children = children.:+(new State(player.opponent, new Board(board, move), move))
+    })
 
-    //if we are rootstate, it's current player's turn
-    //not exactly sure why, but without this, each both player's
-    //returned yellow
-    val p = if (lastMove == null) player else player.opponent
-
-    for (m <- board.getPossibleMoves(p)) {
-
-      //update of this method has new Board instance
-      //generated each time with the move applied
-      //this is needed to be able to evaluate the Board
-      //i cannot see how its possible to use the "yield"
-      //ability whilst performing addition methods (makeMove(s))
-
-      val s = new State(p, new Board(board), m)
-      s.getBoard.makeMove(m)
-      childrenBuffer.+=:(s)
-    }
-    children = childrenBuffer.toArray
   }
+
+  /*
+  *Method to stdout print to output.txt so that you can visually see the results ie we can see the State and
+  *children
+   */
 
   def writeToFile() {
     try {
       var writer = new PrintWriter("output.txt", "UTF-8")
       writer.println(this)
+      writer.close()
       java.awt.Toolkit.getDefaultToolkit.beep()
     } catch {
       case e@(_: FileNotFoundException | _: UnsupportedEncodingException) => e.printStackTrace()
@@ -63,6 +49,10 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
   }
 
   override def compareTo(ob: Any): Int = 0
+
+  /*
+  * This method prints out an ASCII representation of the board and all its children to the predetermined depth (d)
+   */
 
   private def toStringHelper(d: Int, ind: String): String = {
     var str = ind + player + " to play\n"
@@ -79,6 +69,15 @@ class State(@BeanProperty var player: Player, @BeanProperty var board: Board, @B
     str
   }
 
+}
+
+/**
+ * An instance represents the current _state_ of the game of Connect4
+ */
+
+object State {
+
+  val length0 = Array[State]()
 }
 
 
