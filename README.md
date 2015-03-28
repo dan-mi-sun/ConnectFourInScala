@@ -8,7 +8,7 @@
 
 Daniel Hassan: dhassa02
 
-: mkhan05
+Muhammad Khan: mkhan05
 
 ###Learning objectives
 • Experience developing code using trees and recursion.
